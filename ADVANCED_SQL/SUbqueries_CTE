@@ -1,0 +1,299 @@
+/*Create a subquery for extracting a month*/
+SELECT *
+FROM ( --subQuery starts here
+    SELECT *
+    FROM job_postings_fact
+    WHERE EXTRACT(MONTH FROM job_posted_date) = 1
+    ) AS january_jobs;
+/* So we completed a 'SELECT *' on our subQuery*/
+
+/*Create a simple CTE with the same framework*/
+WITH january_jobs_1 AS (--CTE definition starts here
+        SELECT *
+        FROM job_postings_fact
+        WHERE EXTRACT(MONTH FROM job_posted_date) = 1
+        ) -- CTE defintion ends here
+
+        SELECT * 
+        FROM january_jobs_1;
+
+/* Practice Problem #1: Find companies that are offering jobs without a degree needed
+                                        */
+SELECT 
+    name AS company_name
+FROM company_dim
+WHERE company_id IN (
+SELECT 
+   company_id
+FROM 
+    job_postings_fact
+WHERE 
+    job_no_degree_mention = TRUE) 
+    ORDER BY name ASC;
+
+
+/*	Practice #2: Find the companies that have the most job openings
+		-get total number of job postings per company id
+		-return the total number of jobs with the company name
+-order from most job postings to least */
+WITH company_job_count AS (
+    SELECT 
+        company_id,
+        COUNT(*) AS total_jobs
+    FROM 
+        job_postings_fact
+    GROUP BY
+        company_id
+)
+
+SELECT 
+    company_dim.name AS company_name,
+    company_job_count.total_jobs
+FROM company_dim
+LEFT JOIN company_job_count ON 
+    company_job_count.company_id = company_dim.company_id
+    ORDER BY total_jobs DESC;
+
+
+/*HMWK #1: Identify the top 5 skills that are most frequently mentioned in job postings. 
+Use a subquery to find the skill IDs with the highest counts in the skills_job_dim table 
+and then join this result with the skills_dim table to get the skill names.*/
+
+SELECT *
+FROM skills_dim
+limit 5;
+
+SELECT *
+FROM skills_job_dim
+limit 5;
+
+/*Using a CTE*/ 
+WITH top_skills AS (
+SELECT 
+    skill_id,
+    COUNT(job_id) AS total_skills
+FROM 
+    skills_job_dim
+GROUP BY 
+    skill_id
+)
+
+SELECT 
+    skills_dim.skills,
+    top_skills.total_skills
+FROM skills_dim
+LEFT JOIN top_skills ON top_skills.skill_id = skills_dim.skill_id
+ORDER BY total_skills DESC
+LIMIT  5;
+
+/*using a subquery*/
+SELECT 
+    skills_dim.skills,
+    skill_count
+FROM skills_dim
+INNER JOIN (
+SELECT 
+    skill_id,
+    COUNT(job_id) AS skill_count
+FROM 
+    skills_job_dim
+GROUP BY 
+    skill_id
+    ORDER BY COUNT(job_id) DESC
+    /*LIMIT 5*/ ) AS top_skills_1
+    ON skills_dim.skill_id = top_skills_1.skill_id
+    ORDER BY skill_count DESC;
+
+/*Practice #2:Determine the size category ('Small', 'Medium', or 'Large')
+ for each company by first identifying the number of job postings they have.*/ 
+
+SELECT *
+FROM company_dim
+limit 5;
+
+
+SELECT
+   name,
+    job_count,
+CASE
+	  WHEN job_count > 50 THEN 'Large'
+    WHEN job_count BETWEEN 10 AND 50 THEN 'Medium'
+	  ELSE 'Small'
+  END AS Company_size
+FROM 
+    (SELECT 
+    company_dim.company_id,
+    company_dim.name,
+    COUNT(job_postings_fact.job_id) AS job_count
+FROM 
+    company_dim
+INNER JOIN job_postings_fact ON job_postings_fact.company_id = company_dim.company_id
+GROUP BY
+    company_dim.company_id) AS company_job_count_1
+    ORDER BY job_count DESC
+;
+
+
+SELECT
+total_job_counts.company_id,
+company_dim.name,
+total_job_counts.total_jobs,
+CASE
+WHEN total_jobs < 10 THEN 'Small'
+WHEN total_jobs BETWEEN 10 AND 50 THEN 'Medium'
+ELSE 'Large'
+END AS company_size
+FROM
+(SELECT
+company_id,
+COUNT(job_id) AS total_jobs
+FROM
+job_postings_fact
+GROUP BY
+company_id
+) AS total_job_counts
+INNER JOIN company_dim ON total_job_counts.company_id = company_dim.company_id
+ORDER BY total_job_counts.company_id
+;
+
+/*Practice #3: Find companies that offer an average salary above the overall average yearly salary of all job postings. Use subqueries to select companies 
+with an average salary higher than the overall average salary (which is another subquery).*/
+
+Select AVG(salary_year_avg)
+FROM job_postings_fact;
+
+
+SELECT name,
+     avg_salary
+FROM company_dim
+ -- Subquery to calculate average salary per company
+INNER JOIN (
+Select company_id,
+        AVG(salary_year_avg) as avg_salary
+FROM job_postings_fact
+GROUP BY company_id) AS company_salaries
+ ON company_dim.company_id = company_salaries.company_id
+ -- Filter for companies with an average salary greater than the overall average
+WHERE company_salaries.avg_salary > (Select AVG(salary_year_avg)
+FROM job_postings_fact)
+;
+
+/*Advanced Problem #7: Find the count of the number of remote job postings per skill
+-Display the top 5 skills by their demand in remote jobs
+-include skill id, name, and count of postings requiring the skill */
+With remote_job_skills AS
+(SELECT 
+    skills_to_job.skill_id,
+    COUNT(*) AS skill_count
+FROM 
+    skills_job_dim AS Skills_to_job
+INNER JOIN job_postings_fact AS job_postings ON 
+    job_postings.job_id = skills_to_job.job_id
+    WHERE job_postings.job_work_from_home = TRUE AND
+            job_postings.job_title_short = 'Data Analyst'
+    GROUP BY skill_id
+)
+
+SELECT skills.skill_id,
+       skills as skill_name,
+        skill_count
+FROM remote_job_skills
+INNER JOIN skills_dim AS skills 
+ON remote_job_skills.skill_id = skills.skill_id
+ORDER by skill_count desc
+;
+
+/*CTE Practice
+HMWK #1: Identify companies with the most diverse (unique) job titles. 
+Use a CTE to count the number of unique job titles per company,
+ then select companies with the highest diversity in job titles.
+ */
+WITH unique_jobs AS
+ (SELECT
+ company_id,
+ COUNT(DISTINCT job_title) AS count_unique_jobs
+ FROM job_postings_fact
+ GROUP BY company_id)
+
+SELECT 
+    name AS company_name,
+    count_unique_jobs
+FROM company_dim
+INNER JOIN unique_jobs ON 
+        company_dim.company_id = unique_jobs.company_id
+ORDER BY count_unique_jobs DESC
+LIMIT 10;
+        
+/*HMWK #2: Explore job postings by listing job id, job titles, company names, 
+and their average salary rates,
+ while categorizing these salaries relative to the average in their respective countries.
+ Include the month of the job posted date. 
+ Use CTEs, conditional logic, and date functions, to compare individual salaries with national averages.
+*/
+
+SELECT *
+FROM job_postings_fact;
+
+WITH salary_per_country AS
+(SELECT 
+    job_country,
+    AVG(salary_year_avg) AS country_avg
+FROM 
+    job_postings_fact
+    WHERE salary_year_avg IS NOT NULL
+GROUP BY job_country)
+
+SELECT
+    job_postings_fact.job_id,
+    job_postings_fact.job_title,
+    company_dim.name AS company_name,
+    job_postings_fact.salary_year_avg,
+    CASE 
+        WHEN job_postings_fact.salary_year_avg > salary_per_country.country_avg THEN 'above average'
+       ELSE 'below average'
+        END AS salary_category,
+    EXTRACT(MONTH FROM job_postings_fact.job_posted_date) AS month
+FROM job_postings_fact
+INNER JOIN company_dim ON job_postings_fact.company_id = company_dim.company_id
+INNER JOIN salary_per_country on job_postings_fact.job_country = salary_per_country.job_country
+ORDER BY month desc;
+
+
+/* CTE's Practice #3: Calculate the number of unique skills required by each company.
+ Aim to quantify the unique skills required per company and 
+ identify which of these companies offer the highest average salary for positions necessitating at least one skill. 
+ For entities without skill-related job postings, list it as a zero skill requirement and 
+ a null salary. Use CTEs to separately assess the unique skill count and
+  the maximum average salary offered by these companies.*/
+WITH company_skills AS (
+Select 
+    companies.company_id, 
+    COUNT(DISTINCT skills_to_job.skill_id) AS skill_count
+FROM company_dim AS companies
+LEFT JOIN job_postings_fact as j on companies.company_id = j.company_id
+LEFT JOIN skills_job_dim as skills_to_job ON j.job_id = skills_to_job.job_id
+GROUP BY companies.company_id),
+
+ Max_salary As (
+SELECT 
+    j.company_id,
+    MAX(j.salary_year_avg) AS max_avg_salary
+FROM job_postings_fact AS j
+WHERE j.job_id IN (
+    SELECT job_id
+    FROM skills_job_dim)
+GROUP BY j.company_id)
+
+SELECT 
+Companies.name AS company_name,
+company_skills.skill_count AS skill_count,
+max_salary.max_avg_salary AS max_avg_salary
+FROM company_dim AS companies
+LEFT JOIN company_skills ON
+companies.company_id = company_skills.company_id
+LEFT JOIN Max_salary on companies.company_id = Max_salary.company_id
+WHERE max_avg_salary IS NOT NULL
+ORDER by max_avg_salary DESC, skill_count DESC;
+
+
+

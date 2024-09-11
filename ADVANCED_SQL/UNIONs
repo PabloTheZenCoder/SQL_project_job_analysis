@@ -1,0 +1,121 @@
+
+/* UNION's Practice*/
+/* Practice #8: Find job postings from the first quarter that have a salary greater than 70K
+        -combine job posting tables from the first quarter of 2023 (feb-march)
+        -Get job postings with an average yearly salary greater than 70k */
+ SELECT job_title_short,
+        job_location,
+        job_via,
+        job_posted_date::DATE,
+        salary_year_avg
+ FROM (
+        SELECT *
+        FROM january_jobs
+        UNION ALL 
+        SELECT *
+        FROM February_jobs
+        UNION ALL 
+        SELECT *
+        FROM March_jobs
+ ) AS quarter1_jobs
+ WHERE salary_year_avg > 70000 AND job_title_short = 'Data Analyst'
+ ORDER BY salary_year_avg DESC;
+
+
+
+/*
+Practice #1: Create a unified query that categorizes job postings into two groups: 
+those with salary information (salary_year_avg or salary_hour_avg is not null) and 
+those without it.*/
+(SELECT   
+        job_id,
+        job_title,
+        'With Salary Info' AS Salary_info
+        FROM job_postings_fact
+        WHERE salary_year_avg IS NOT NULL OR salary_hour_avg IS NOT NULL;
+)
+
+UNION all
+
+(SELECT   
+        job_id,
+        job_title,
+        'Without Salary Info' AS Salary_info
+        FROM job_postings_fact
+        WHERE salary_year_avg IS NULL OR salary_hour_avg IS NULL
+)
+
+ORDER BY 
+Salary_info DESC,
+job_id;
+
+--create separate tables for jan, feb , and march
+CREATE TABLE January_jobs AS
+Select *
+FROM job_postings_fact
+WHERE EXTRACT(MONTH FROM job_posted_date) = 1
+;
+
+CREATE TABLE February_jobs AS
+Select *
+FROM job_postings_fact
+WHERE EXTRACT(MONTH FROM job_posted_date) = 2
+;
+
+CREATE TABLE March_jobs AS
+Select *
+FROM job_postings_fact
+WHERE EXTRACT(MONTH FROM job_posted_date) = 3
+;
+
+/*Practice #2:Retrieve the job id, job title short, job location, job via, skill and 
+skill type for each job posting from the first quarter (January to March). 
+Using a subquery to combine job postings from the first quarter 
+ Only include postings with an average yearly salary greater than $70,000.
+*/
+
+SELECT job_postings_q1.job_id,
+        job_postings_q1.job_title_short,
+        job_postings_q1.job_location,
+        job_postings_q1.job_via,
+        job_postings_q1.salary_year_avg,
+        skills_dim.skills,
+        skills_dim.type
+FROM (Select *
+FROM January_jobs
+UNION all
+SELECT *
+FROM February_jobs
+UNION all
+SELECT *
+FROM March_jobs
+) AS job_postings_q1
+LEFT JOIN skills_job_dim on job_postings_q1.job_id = skills_job_dim.job_id
+LEFT JOIN skills_dim on skills_job_dim.skill_id = skills_dim.skill_id
+WHERE job_postings_q1.salary_year_avg > 70000
+ORDER BY job_postings_q1.job_id;
+
+
+/*Practice #3: Analyze the monthly demand for skills 
+by counting the number of job postings for each skill 
+in the first quarter (January to March),
+ utilizing data from separate tables for each month.*/
+SELECT
+skills_dim.skills,
+COUNT(job_postings_q1.job_id),
+EXTRACT(MONTH from job_posted_date) AS MONTH,
+EXTRACT(YEAR from job_posted_date) AS YEAR
+FROM (Select *
+FROM January_jobs
+UNION all
+SELECT *
+FROM February_jobs
+UNION all
+SELECT *
+FROM March_jobs) AS job_postings_q1
+LEFT JOIN skills_job_dim ON job_postings_q1.job_id = skills_job_dim.job_id
+LEFT JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+GROUP BY skills_dim.skills,YEAR, MONTH
+ORDER BY skills_dim.skills, YEAR, MONTH;
+
+

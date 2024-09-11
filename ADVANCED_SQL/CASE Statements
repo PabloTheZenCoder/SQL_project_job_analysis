@@ -1,0 +1,108 @@
+/*Case Statements
+Label new column as follows: 
+-'Anywhere' jobs as Remote
+-'New York, NY' jobs as 'Local'
+-'Otherwise' as 'onsight'
+*/
+SELECT 
+    job_title_short,
+    job_location,
+    CASE 
+        WHEN job_location = 'Anywhere' THEN 'Remote'
+        WHEN job_location = 'New York, NY' THEN 'Local'
+        ELSE 'Onsight'
+    END AS location_category
+FROM job_postings_fact;
+
+/*Count the number of jobs postings in each of the three categories: 
+remote, local, onsight*/
+SELECT 
+    COUNT(job_id) AS number_of_jobs,
+    CASE 
+        WHEN job_location = 'Anywhere' THEN 'Remote'
+        WHEN job_location = 'New York, NY' THEN 'Local'
+        ELSE 'Onsight'
+    END AS location_category
+FROM job_postings_fact
+WHERE job_title_short = 'Data Analyst'
+GROUP BY
+     location_category
+ORDER BY
+    number_of_jobs DESC;
+
+/*Practice #1: From the job_postings_fact table, 
+categorize the salaries from job postings that are data analyst jobs
+ and who have a yearly salary information. Put salary into 3 different categories:
+
+If the salary_year_avg is greater than $100,000 then return ‘high salary’.
+If the salary_year_avg is between $60,000 and $99,999 return ‘Standard salary’.
+If the salary_year_avg is below $60,000 return ‘Low salary’.
+*/
+
+SELECT 
+    job_id,
+    job_title,
+    salary_year_avg,
+    CASE 
+        WHEN salary_year_avg > 100000 THEN 'high salary'
+        WHEN salary_year_avg BETWEEN 60000 AND 99999 THEN 'Standard salary'
+        WHEN salary_year_avg < 60000 THEN 'low salary'
+    END AS Salary_categories
+FROM job_postings_fact
+WHERE job_title_short = 'Data Analyst' AND salary_year_avg IS NOT NULL
+ORDER BY salary_year_avg DESC
+;
+
+/*Practice #2: Count the number of unique companies that offer work from home (WFH) versus those requiring work to be on-site.
+Use the job_postings_fact table to count and compare the distinct companies based on their WFH policy (job_work_from_home).
+*/
+SELECT 
+    COUNT(DISTINCT company_id) AS unique_companies,
+    CASE 
+        WHEN job_work_from_home = TRUE THEN 'Remote'
+        ELSE 'Onsight'
+    END AS Remote_or_onsight
+FROM job_postings_fact
+WHERE job_work_from_home IS NOT NULL
+GROUP BY Remote_or_onsight
+;
+
+/*Alternative way*/
+SELECT 
+    COUNT(DISTINCT 
+        CASE 
+        WHEN job_work_from_home = TRUE THEN company_id END) AS wfh_companies,
+    COUNT(DISTINCT
+        CASE 
+        WHEN job_work_from_home = FALSE THEN company_id END) AS non_wfh_companies
+FROM job_postings_fact;
+
+
+/*Practice #3:Write a query that lists all job postings with their job_id, salary_year_avg, and two additional columns using CASE WHEN statements called:
+ experience_level and remote_option.
+ Use the job_postings_fact table.*/
+
+SELECT 
+    job_id,
+    job_title,
+    salary_year_avg,
+    CASE 
+        WHEN job_title ILIKE  '%senior%' THEN 'Senior'
+        WHEN job_title ILIKE  '%manager%' OR job_title ILIKE '%Lead%' THEN 'Manager/Lead'
+          WHEN job_title ILIKE '%Junior%' OR job_title ILIKE '%Entry%' THEN 'Junior/Entry'
+        ELSE 'Not Specified'
+    END AS Experience_level,
+     CASE 
+        WHEN job_work_from_home = TRUE THEN 'Yes'
+          ELSE 'No'
+    END AS Remote_option
+FROM 
+    job_postings_fact
+WHERE 
+  salary_year_avg IS NOT NULL 
+ORDER BY 
+  job_id;
+
+
+
+
