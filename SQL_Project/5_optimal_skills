@@ -1,0 +1,102 @@
+/* What are the most optimal skills to learn (aka it's in high demand and a hig-paying skill)
+    -identify skills in high demand and associated with high average salaries for data analyst roles
+    -concentrates on remote positions with specified salaries
+    -Why? targets skills that offer job seurity (high demand) and financial benefits (high salary)
+    offering strategic insights for career development in data analysis
+    */
+
+With skills_demand AS (
+SELECT 
+    skills_dim.skill_id,
+    skills_dim.skills,
+    COUNT(skills_job_dim.job_id) AS demand_count
+FROM job_postings_fact
+INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+WHERE 
+    job_title_short = 'Data Analyst'
+    AND salary_year_avg IS NOT NULL
+    --AND job_work_from_home = True
+GROUP BY skills_dim.skill_id
+), average_salary AS (
+SELECT 
+    skills_job_dim.skill_id,
+--Add "type" to better understand what type of software is most in demand
+    ROUND(AVG(Salary_year_avg), 0) AS avg_salary
+FROM job_postings_fact
+INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+WHERE 
+    job_title_short = 'Data Analyst'
+    AND salary_year_avg IS NOT NULL
+    --AND job_work_from_home = True
+GROUP BY 
+    skills_job_dim.skill_id
+)
+
+SELECT 
+    skills_demand.skill_id,
+    skills_demand.skills,
+    demand_count,
+    avg_salary
+FROM skills_demand
+INNER JOIN average_salary ON skills_demand.skill_id = average_salary.skill_id
+ORDER BY
+    demand_count DESC,
+    avg_salary DESC
+LIMIT 25
+;
+
+/*Insight: The highest demand skills, like SQL, python, Tableau, excel all pay around 100k*/
+
+/*rewriting the same query to be more concise while also ordering by average salary first,
+ and making the count for the demand for skills greater than 10*/
+
+SELECT
+    skills_dim.skill_id,
+    skills_dim.skills,
+    COUNT(skills_job_dim.job_id) AS demand_count,
+    ROUND(AVG(job_postings_fact.Salary_year_avg), 0) AS avg_salary
+FROM job_postings_fact
+INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+WHERE 
+    job_title_short = 'Data Analyst'
+    AND salary_year_avg IS NOT NULL
+    --AND job_work_from_home = True
+GROUP BY skills_dim.skill_id
+HAVING 
+    COUNT(skills_job_dim.job_id)>10
+ORDER BY 
+    avg_salary DESC,
+    demand_count DESC
+LIMIT 25;
+
+/*Insight: More cloud based and engineering skills are shown in these results*/
+
+/* Now to do the same query but with entry level data analyst jobs in the U.S. or remote*/
+SELECT
+    skills_dim.skill_id,
+    skills_dim.skills,
+    COUNT(skills_job_dim.job_id) AS demand_count,
+    ROUND(AVG(job_postings_fact.Salary_year_avg), 0) AS avg_salary
+FROM job_postings_fact
+INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+WHERE 
+     (Job_country = 'United States' AND
+   job_title LIKE '%Analyst%') AND
+  (job_title LIKE '%Entry_Level%' OR
+  job_title LIKE '%Junior%')
+    AND salary_year_avg IS NOT NULL
+GROUP BY skills_dim.skill_id
+HAVING 
+    COUNT(skills_job_dim.job_id)>10
+ORDER BY 
+    avg_salary DESC,
+    demand_count DESC
+LIMIT 25;
+
+/*Interesting insight-basically python is the highest paying in demand skill for entry level analysts. 
+After that its pretty classic entry level skills that we see, SQL, Tableau, R, power bi. 
+Need to look up oracle though I believe its a cloud based technology.*/

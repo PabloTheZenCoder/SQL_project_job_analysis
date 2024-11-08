@@ -1,0 +1,75 @@
+/*Question: WHat are the most in-demand skills for data analysts?
+    -join job postings to inner join table similar to query 2
+    -identify the top 5 in demand skills for a data analysts
+    -focus on all job postings
+    -WHy? retrieves the top 5 skills with the highest demand in the job market,
+    providing insights into the most valuable skills for job seekers  */
+
+/*Advanced Problem #7: Find the count of the number of remote job postings per skill
+-Display the top 5 skills by their demand in remote jobs
+-include skill id, name, and count of postings requiring the skill */
+
+/*Pablo's question: What type of skills are used most in analyst roles (entry level) that pay the best?*/
+
+
+SELECT *
+FROM skills_job_dim
+LIMIT 1000;
+
+SELECT *
+FROM skills_dim
+LIMIT 1000;
+
+/*Older query*/
+    With remote_job_skills AS
+(SELECT 
+    skills_to_job.skill_id,
+    COUNT(*) AS skill_count
+FROM 
+    skills_job_dim AS Skills_to_job
+INNER JOIN job_postings_fact AS job_postings ON 
+    job_postings.job_id = skills_to_job.job_id
+    WHERE job_postings.job_work_from_home = TRUE AND
+            job_postings.job_title_short = 'Data Analyst'
+    GROUP BY skill_id
+)
+
+SELECT skills.skill_id,
+       skills as skill_name,
+        skill_count
+FROM remote_job_skills
+INNER JOIN skills_dim AS skills 
+ON remote_job_skills.skill_id = skills.skill_id
+ORDER by skill_count desc
+;
+
+
+/* Newer, cleaner query */
+
+SELECT 
+    skills,
+    COUNT(skills_job_dim.job_id) AS demand_count
+FROM job_postings_fact
+INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+WHERE 
+    job_title_short = 'Data Analyst'
+GROUP BY skills
+ORDER BY demand_count DESC
+limit 5;
+
+/* looking at most in demand skills, for entry level analyst roles in the U.S. */
+SELECT 
+    skills,
+    COUNT(skills_job_dim.job_id) AS demand_count
+FROM job_postings_fact
+INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+WHERE
+   (Job_country = 'United States' AND
+   job_title LIKE '%Analyst%') AND
+  (job_title LIKE '%Entry_Level%' OR
+  job_title LIKE '%Junior%')
+GROUP BY skills
+ORDER BY demand_count DESC
+limit 5;

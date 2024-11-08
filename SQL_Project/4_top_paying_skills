@@ -1,0 +1,55 @@
+/*What are the top skills based on salary?
+-Look at the average salary associated with each skill for Data analysts positions
+-Focuses on roles with specified salaries, regardless of location
+-Why? It reveals how different skills impact salary levels for Data analysts
+ and helps identify the most financially rewarding skills to acquire or improve */
+
+/* Pablo Question: What type (Programming, cloud, database, etc) of skills are most in demand for entry level data analyst roles vs business vs engineer vs scientist 
+Compare job postings to see what "type" is the most in demand*/
+
+SELECT *
+FROM skills_dim
+LIMIT 100;
+ 
+SELECT 
+    skills,
+--Add "type" to better understand what type of software is most in demand
+    ROUND(AVG(Salary_year_avg), 0) AS average_salary
+FROM job_postings_fact
+INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+WHERE 
+    job_title_short = 'Data Analyst'
+    AND salary_year_avg IS NOT NULL
+GROUP BY 
+    skills
+ORDER BY 
+    average_salary DESC
+limit 25;
+
+/*Top skills for entry level, U.S. based analyst*/
+
+SELECT 
+    skills,
+    ROUND(AVG(Salary_year_avg), 0) AS average_salary
+FROM job_postings_fact
+INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+    WHERE
+   (Job_country = 'United States' AND
+   job_title LIKE '%Analyst%') AND
+  (job_title LIKE '%Entry_Level%' OR
+  job_title LIKE '%Junior%')
+    AND salary_year_avg IS NOT NULL
+GROUP BY 
+    skills
+ORDER BY 
+    average_salary DESC
+limit 25;
+
+/*copy results and put into chatgpt: here are top paying skills for data analysts. 
+can you provide some quick trends into the top paying jobs
+-High demand for Big Data and ML skills
+-Software development and deployment proficiency
+-Cloud Computing Expertise
+
