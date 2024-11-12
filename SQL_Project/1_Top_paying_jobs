@@ -3,54 +3,15 @@
 -Focuses on job_postings with specified salaries (remove nulls).
 -WHy? Highlight the top-paying opportunities for Data Analysts, offering insights into employment opportunities
 
-Pablo's Question #1:Identify jobs that are entry-level or Junior, located in the Southeast(Separate query:in states I'd like to live) or remote, that are for analysts 
-Pablo's Question #2:Identify what cities in the SOutheast(or in the U.S. have the most analyst job postings)
-Pablo's Question #3: which job_via website has the most entry level, junior Analyst positions?
-Pablo's Question #4: how much more or less do companies pay for the remote option, with a degree, with health insurance included
-Pablo's Question #5: Which countries have the most job postings
-Pablo's Question #6: WHich companies are hiring the most entry data/business analysts
-Pablo's Question #7: Look specifically for marketing data analytics
-Pablo's Question #8: how many data analyst vs business analyst vs engineer vs scientist roles are there?
-Pablo's Question #9: What months have the most job postings?
-pablo's question #10: How much more on average are business's willing to pay for grad degree
-pablo's question #11: how much less do business's pay for wfh
-
-
 /*Just looking at the dataset for ideas*/ 
 SELECT *
 FROM job_postings_fact
 LIMIT 1000;
 
---Looking at top paying remote data analyst jobs and their corresponding companies
-Select
-  job_id,
-  job_title,
-  job_location,
-  job_schedule_type,
-  Salary_year_avg,
-  job_posted_date,
-  name as company_name
-FROM 
-  job_postings_fact
-LEFT JOIN company_dim ON job_postings_fact.company_id = company_dim.company_id
-WHERE 
-  job_title_short = 'Data Analyst' AND
-  job_location = 'Anywhere' AND
-  Salary_year_avg IS NOT NULL
-ORDER BY 
-  Salary_year_avg DESC
-LIMIT 10
-;
 
---Looking at entry level Data analyst or business analyst jobs and their corresponding,
---companies and industries, salary range
-
---count the distinct companies, corresponding industries and visualize with salary avg
---redo this query but without the entry-level or junior
-
---top 50 data/business analyst jobs-attach industry and graph based on 
---the count of job postings in one graph, 
---and then on avg salary per industry in another graph
+/*Looking at data/business Analyst roles that are either entry-level or junior in the U.S.
+  -I'll use chatgpt to assign industry names to each company
+  -Then I'll graph showcasing the number of jobs each industry offered, and the average salary*/
 Select
   job_title,
   job_title_short,
@@ -65,21 +26,18 @@ LEFT JOIN company_dim ON job_postings_fact.company_id = company_dim.company_id
 WHERE 
     (job_title_short = 'Data Analyst'  OR
      job_title_short = 'Business Analyst') 
-  --and (job_title LIKE '%Entry_Level%' 
-    --OR job_title LIKE '%junior%')
+  and (job_title LIKE '%Entry_Level%' 
+    OR job_title LIKE '%junior%')
    AND Salary_year_avg IS NOT NULL 
    AND job_schedule_type = 'Full-time'
     AND job_country = 'United States'
 ORDER BY 
   Salary_year_avg DESC
-  LIMIT 50
 ;
 
-
---redo this query but without the entry-level or junior
---focus on companies, industries and skills---charted, with avg pay(perhaps use less pay as
--- a factor in entry level)
--- using a midrange salary to showcase entry level jobs
+--Looking at the top 50 highest paying data/business analyst positions and their corresponding companies.
+--Then using Chatgpt to assign industries to each 
+--graph by number of jobs for each industry and avg salary for each industry
 Select
   job_title,
   job_title_short,
@@ -96,15 +54,10 @@ WHERE
     OR job_title_short = 'Business Analyst')
    AND Salary_year_avg IS NOT NULL 
    AND job_schedule_type = 'Full-time'
-   AND salary_year_avg BETWEEN 45000 AND 65000
    AND job_country = 'United States'
 ORDER BY 
   Salary_year_avg DESC
+  LIMIT 50
 ;
 
 
-
-
-
- /*Looking at analyst jobs that are entry level or junior and their corresponding companies*/
-/*Looking at analyst jobs in the southeast, that are entry level or junior and their corresponding companies*/
