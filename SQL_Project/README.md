@@ -64,13 +64,32 @@ ORDER BY
 ;
 ```
 
-![Top Industries Hiring Entry-level Data/Business Analysts](image.png)
+![Top Industries Hiring Entry-level Data/Business Analysts](image.png) *Bar graph visualizing the top industries that are hiring Data/Business Analysts filtered by average salary and number of job postings*
 
+Insights from the "Top Industries Hiring Entry-Level Data Analyst"
 
+**-Diverse Industries:** The main industries hiring entry level data analyst's are:
+1. Transportation/logistics
+2. Real-estate tech
+3. Software
+4. AI education
+5. IT Services
+6. fintech
+7. Insurance
+8. Non-profit
 
+**-IT Services hire the most entry-level analysts with 26 job postings:** AI training and education has the second highest amount of job postings at 8 postings
 
+**-Wide Salary Range:** The salary range for entry level analyst's spans $45,000 to $81,000 with the average entry level analyst role paying around $64,000
 
+**-Transportation/Logistics pays entry-level analysts the most with an $81,000 average annual salary**
+
+**-Overall:** Entry-level analyst's should focus on applying to IT companies if they are simply looking to get an analyst job quickly. Transportation/Logistics would be a good industry to aim for since it pays the highest out of all of these industries 
 
 
 # What I Learned
+
+
+
+
 # Conclusions
