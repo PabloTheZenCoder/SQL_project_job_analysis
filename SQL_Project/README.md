@@ -35,7 +35,7 @@ This project marks my second full-length SQL project. The first being the Covid-
 # The Analysis
 Each query for this project is aimed at analyzing specific aspects of the data analytics job market. Here's how I approached each question:
 
-###1. Common Industries hiring Data/Business Analysts
+### 1. Common Industries hiring Data/Business Analysts
 
 To see what industries are hiring the most entry-level data analysts, I filtered my data to focus on job postings that included the key word "entry-level" or "junior". I also filtered specifically for "data/business analysts". Additionally, I wanted to keep the job postings located in the U.S., where I reside, focusing on "full-time' positions that included the average yearly salary.
 
@@ -85,6 +85,35 @@ Insights from the "Top Industries Hiring Entry-Level Data Analyst"
 **-Transportation/Logistics pays entry-level analysts the most with an $81,000 average annual salary**
 
 **-Overall:** Entry-level analyst's should focus on applying to IT companies if they are simply looking to get an analyst job quickly. Transportation/Logistics would be a good industry to aim for since it pays the highest out of all of these industries 
+
+
+### 2. The "Highest Paying" Industries Hiring Data Analyst's in 2023 Filtered by Salary and Number of Job Postings
+For the second query I wanted to see what industries are hiring the highest paid data analyst's and how that differs from industries hiring entry-level data analysts. So I filtered for "data/business analysts",located in the U.S., where I reside, focusing on "full-time' positions that included the average yearly salary. Then I looked at the top 50, highest paying analyst job postings. 
+
+```sql
+Select
+  job_title,
+  job_title_short,
+  job_location,
+  job_schedule_type,
+  job_country,
+  salary_year_avg,
+  name as company_name
+FROM 
+  job_postings_fact
+LEFT JOIN company_dim ON job_postings_fact.company_id = company_dim.company_id
+WHERE 
+     (job_title_short = 'Data Analyst' 
+    OR job_title_short = 'Business Analyst')
+   AND Salary_year_avg IS NOT NULL 
+   AND job_schedule_type = 'Full-time'
+   AND job_country = 'United States'
+ORDER BY 
+  Salary_year_avg DESC
+  LIMIT 50
+;
+```
+![Top-Paying Industries Hiring Data Analyst in 2023](Assets\top_paying_industries.png)
 
 
 # What I Learned
