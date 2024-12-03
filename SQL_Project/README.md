@@ -90,6 +90,10 @@ Insights from the "Top Industries Hiring Entry-Level Data Analyst"
 ### 2. The "Highest Paying" Industries Hiring Data Analyst's in 2023 Filtered by Salary and Number of Job Postings
 For the second query I wanted to see what industries are hiring the highest paid data analyst's and how that differs from industries hiring entry-level data analysts. So I filtered for "data/business analysts",located in the U.S., where I reside, focusing on "full-time' positions that included the average yearly salary. Then I looked at the top 50, highest paying analyst job postings. 
 
+From there, I exported this sub-dataset to Excel where I used ChatGPT to research and assign an industry based on each company in this dataset. 
+
+Finally, I uploaded this newly updated dataset to Tableau where I created my bar graph visualization. I focused on industries that had more than one job posting.
+
 ```sql
 Select
   job_title,
@@ -114,7 +118,11 @@ ORDER BY
 ;
 ```
 ![Top Paying Industries](image-1.png)
-*
+*Bar graph visualizing the top 50 highest paying industries that are hiring Data/Business Analyst. 
+
+Insights from the "Top Paying Industries with Multiple Job Postings"
+
+
 
 
 # What I Learned
