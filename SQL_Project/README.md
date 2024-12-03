@@ -113,14 +113,7 @@ ORDER BY
   LIMIT 50
 ;
 ```
-![Top Paying Graph](C:\Users\ptl09\OneDrive\Desktop\Developer\SQL_project_job_analysis\SQL_Project\top_paying_industries.png)
-
-
-
-
-
-
-
+![Top-Paying Industries Hiring Data Analyst in 2023](Assets\top_paying_industries.png)
 
 
 # What I Learned
