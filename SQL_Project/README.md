@@ -113,7 +113,8 @@ ORDER BY
   LIMIT 50
 ;
 ```
-![Top Paying Graph](SQL_Project\Assets\top_paying_industries.png)
+![Top Paying Graph](C:\Users\ptl09\OneDrive\Desktop\Developer\SQL_project_job_analysis\SQL_Project\top_paying_industries.png)
+
 
 
 
