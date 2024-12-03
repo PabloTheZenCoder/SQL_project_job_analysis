@@ -113,7 +113,8 @@ ORDER BY
   LIMIT 50
 ;
 ```
-![Top-Paying Industries Hiring Data Analyst in 2023](Assets\top_paying_industries.png)
+![Top Paying Industries](image-1.png)
+*
 
 
 # What I Learned
