@@ -2,15 +2,31 @@
 -Identify the top 10 highest-paying Data Analyst roles that are available remotely
 -Focuses on job_postings with specified salaries (remove nulls).
 -WHy? Highlight the top-paying opportunities for Data Analysts, offering insights into employment opportunities
+*/
+SELECT	
+	job_id,
+	job_title,
+	job_location,
+	job_schedule_type,
+	salary_year_avg,
+	job_posted_date,
+    name AS company_name
+FROM
+    job_postings_fact
+LEFT JOIN company_dim ON job_postings_fact.company_id = company_dim.company_id
+WHERE
+    job_title_short = 'Data Analyst' AND
+    salary_year_avg IS NOT NULL
+ORDER BY
+    salary_year_avg DESC
+LIMIT 10;
 
-/*Just looking at the dataset for ideas*/ 
-SELECT *
-FROM job_postings_fact
-LIMIT 1000;
 
 
-/*Looking at data/business Analyst roles that are either entry-level or junior in the U.S.
-  -I'll use chatgpt to assign industry names to each company
+/*What are the main industries hiring entry-level data/business analyst
+  -identify Data analyst job postings with "entry-level" or "junior" in the title
+  -Focuses on job_postings with specified salaries (remove nulls), located in the U.S, and full-time positions.
+  -I'll use chatgpt to assign industry names to each company tied to a job posting
   -Then I'll graph showcasing the number of jobs each industry offered, and the average salary*/
 Select
   job_title,
@@ -35,9 +51,11 @@ ORDER BY
   Salary_year_avg DESC
 ;
 
---Looking at the top 50 highest paying data/business analyst positions and their corresponding companies.
---Then using Chatgpt to assign industries to each 
---graph by number of jobs for each industry and avg salary for each industry
+/*What are the main industries hiring the highest paid data/business analyst
+  -identify Data/Business analyst job postings with the highest average yearly salaries
+  -Focuses on job_postings with specified salaries (remove nulls), located in the U.S, and full-time positions.
+  -I'll use chatgpt to assign industry names to each company tied to a job posting
+  -Then I'll graph showcasing the number of jobs each industry offered, and the average salary*/
 Select
   job_title,
   job_title_short,

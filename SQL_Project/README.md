@@ -118,16 +118,32 @@ ORDER BY
 ;
 ```
 ![Top Paying Industries](image-1.png)
-*Bar graph visualizing the top 50 highest paying industries that are hiring Data/Business Analyst. 
+*Bar graph visualizing the top paying industries with multiple job postings that are hiring Data/Business Analysts. 
 
 Insights from the "Top Paying Industries with Multiple Job Postings"
 
+**-Diverse Industries:** The main industries hiring entry level data analyst's are:
+1. Financial Services
+2. Artificial Intelligence Research
+3. Defense and Intelligence
+4. Staffing and recruitment
+5. Manufacturing and Packaging
+6. Financial Recruitment
+7. Healthcare
+8. Fintech
+
+**-Social Media and Entertainment hire the most entry-level analysts with 9 job postings:** This is includes companies like Meta, or Tiktok, Instagram, which makes sense that they would hire lots of data analyst since they are large companies with complex data ecosystems. Financial Services(i.e. Fintech) has the second highest amount of job postings if you combine Fintech, financial services, and financial recruitment with 7 job postings
+
+**-High Salary Range:** The salary range for top paying analyst roles is high! It spans $200,000 to $300,000 with the average top paying analyst role paying around $241,086
 
 
+**-Overall:** Social media and Entertainment companies like Facebook, Netflix, pinterist are going to be hiring many data analyst's for the forseable future. They have a lot of consumer data and thus, marketing skills will likely be a big part of these job roles. Therefore an entry level analyst would be smart to build marketing analyst skills knowing that there will be many high-paying social media company jobs in the future. 
+
+***-Financial Services, Artificial Intelligence Research, and Defense and Intelligence Services pay top paid analysts the most with an $294,244 average annual salary*** These three industries and the skills associated with them, like AI, are good industries to focus on for a entry level analyst looking to maximize their yearly salary. 
+
+***Other industries in this visualization like healthcare, biotechnology and Big Pharma, Manufacturing/packaging are also good industries to take note of and to build skills in.*** All of the industries in this visualization are top paying industries with a high demand for analyst's.
 
 # What I Learned
-
-
 
 
 # Conclusions
