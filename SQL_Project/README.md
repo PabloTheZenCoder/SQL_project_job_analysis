@@ -10,10 +10,7 @@ Data hails from [Luke Barrousse's SQL Course](https://www.youtube.com/watch?v=7m
 ### The questions I wanted to answer through my SQL queries were:
 1. What industries hire the most data analysts and whats the avg salary per industry
     Compare:
-        a)entry level/junior vs senior, highest paying
-        b)Remote
-        c)Jobs located in the Southeast
-        d)jobs located remote or in places I want to live(Colorado, PNW, Europe, Flagstaff, Fayetteville, Asheville)
+        a)entry level/junior job postings with senior, highest paying job postings
 2. What cities/countries have the most data analyst job postings?
 3. Which job_via website has the most job postings?
 4. How much more or less do companies pay for the remote option, with a degree, with health insurance included, with graduate degree?
@@ -142,6 +139,42 @@ Insights from the "Top Paying Industries with Multiple Job Postings"
 ***-Financial Services, Artificial Intelligence Research, and Defense and Intelligence Services pay top paid analysts the most with an $294,244 average annual salary*** These three industries and the skills associated with them, like AI, are good industries to focus on for a entry level analyst looking to maximize their yearly salary. 
 
 ***Other industries in this visualization like healthcare, biotechnology and Big Pharma, Manufacturing/packaging are also good industries to take note of and to build skills in.*** All of the industries in this visualization are top paying industries with a high demand for analyst's.
+
+### 3. Top 20 Entry-Level, Data Analyst Skills Listed in Job Postings
+
+```sql
+WITH entry_us_jobs AS (
+Select
+  job_id,
+  job_title,
+  job_title_short,
+  job_location,
+  job_schedule_type,
+  job_country,
+  salary_year_avg,
+  name as company_name
+FROM 
+  job_postings_fact
+LEFT JOIN company_dim ON job_postings_fact.company_id = company_dim.company_id
+WHERE 
+   (Job_country = 'United States' AND
+   job_title LIKE '%Analyst%') AND
+  (job_title LIKE '%Entry_Level%' OR
+  job_title LIKE '%Junior%')
+ORDER BY 
+  Salary_year_avg DESC
+)
+
+SELECT 
+  entry_us_jobs.*,
+  skills
+FROM entry_us_jobs
+INNER JOIN skills_job_dim ON entry_us_jobs.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+ORDER BY salary_year_avg DESC;
+```
+
+![Top 20 Entry-Level, Data Analyst Skills Listed in Job Postings](image-2.png))
 
 # What I Learned
 
