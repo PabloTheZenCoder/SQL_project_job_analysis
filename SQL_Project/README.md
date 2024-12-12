@@ -201,6 +201,17 @@ ORDER BY demand_count DESC
 limit 5;
 ```
 ![Top 5 Skills for Remote Data Professionals](image-3.png)
+*Bar graph visualizing the top 5 skills for remote data professionals
+
+Insights from the "Top 5 Skills for Remote Data Professionals"
+
+-SQL and Python are highly sought after skills for all data professionals, whether entry-level or seasoned professionals
+
+-Having some knowledge and experience with cloud computing software like AWS or Azure would be beneficial to any data professional
+
+-R is a very sought after skill for data professionals
+
+
 
 
 # What I Learned
