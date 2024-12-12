@@ -8,16 +8,14 @@ Driven by a quest to navigate the job market more effectively, this project was 
 Data hails from [Luke Barrousse's SQL Course](https://www.youtube.com/watch?v=7mz73uXD9DA&t=14297s). It's packed with data on data analyst job titles, salaries, locations, companies, job postings, and skills.
 
 ### The questions I wanted to answer through my SQL queries were:
-1. What industries hire the most data analysts and whats the avg salary per industry
-    Compare:
-        a)entry level/junior job postings with senior, highest paying job postings
-2. What cities/countries have the most data analyst job postings?
-3. Which job_via website has the most job postings?
-4. How much more or less do companies pay for the remote option, with a degree, with health insurance included, with graduate degree?
-5. WHich companies are hiring the most data analysts?
-6. WHat months have the most data analyst job postings
-7. What companies are hiring the most marketing analysts
-8. compare avg number of jobs postings for data analysts, business analyst, data scientists, data engineers, cloud engineers and compare avg salaries for each of these roles
+1. What industries hire the most entry-level data analysts and whats the avg salary per industry?
+2. What industries hire the highest paid data analysts and whats the avg salary per industry?
+2. What are the top skills desired for entry-level data analysts
+3. WHat are the top skills for any data professional, from analysts to engineers? (* 12/12/24 edit:Change to highest paid data professionals???)
+4. What cities/countries have the most data analyst job postings?
+5. How much more or less do companies pay for the remote option, with a degree, with health insurance included, with graduate degree?
+
+
 
 # Tools I used
 - **SQL**: The backbone of my analysis, allowing me to query the database and unearth critical insights
