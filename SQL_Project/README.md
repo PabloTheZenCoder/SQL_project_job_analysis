@@ -141,6 +141,7 @@ Insights from the "Top Paying Industries with Multiple Job Postings"
 ***Other industries in this visualization like healthcare, biotechnology and Big Pharma, Manufacturing/packaging are also good industries to take note of and to build skills in.*** All of the industries in this visualization are top paying industries with a high demand for analyst's.
 
 ### 3. Top 20 Entry-Level, Data Analyst Skills Listed in Job Postings
+For the third query, I wanted to see what were the most desired skills from entry-level/junior analyst's. By using my previous query that looked at Entry level jobs and industries, I was able to join the skills table which then allowed me to see every skill that is associated with each job posting. Later on, in Tableau I was able to group by skill and and then visualize these skills by how often they were listed in job postings.
 
 ```sql
 WITH entry_us_jobs AS (
@@ -174,7 +175,33 @@ INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
 ORDER BY salary_year_avg DESC;
 ```
 
-![Top 20 Entry-Level, Data Analyst Skills Listed in Job Postings](image-2.png))
+![Top 20 Entry-Level, Data Analyst Skills Listed in Job Postings](image-2.png)
+*Bar graph visualizing the most frequently listed skills in entry-level data/business analyst job postings. 
+
+Insights from the "Top 20 Entry-Level, Data Analyst Skills Listed in Job Postings"
+
+-Excel is the most sought after skill for entry-level analyst's and was listed in 792 entry-level job postings
+
+-Tableau and SQL are basically tied for the second most sought after skill having been listed in over 650 entry-level job postings
+
+-The best entry-level data analyst skill stack is to be adept at Excel, Tableau, SQL, Python, SAS; in that order.
+
+### 4. Top 5 Skills to for any Data Professional Job
+To contrast this last visualization, I wanted to see what the top five skills desired are for any data professional, from analysts to engineers. I filtered for remote jobs since remote work seems to be more desired amoung data professionals and personally I would prefer to work remotely.
+
+```sql
+SELECT 
+    skills,
+    COUNT(skills_job_dim.job_id) AS demand_count
+FROM job_postings_fact
+INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+GROUP BY skills
+ORDER BY demand_count DESC
+limit 5;
+```
+![Top 5 Skills for Remote Data Professionals](image-3.png)
+
 
 # What I Learned
 

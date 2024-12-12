@@ -50,6 +50,9 @@ WHERE
    job_title LIKE '%Analyst%') AND
   (job_title LIKE '%Entry_Level%' OR
   job_title LIKE '%Junior%')
+    /*AND Salary_year_avg IS NOT NULL 
+   AND job_schedule_type = 'Full-time'
+    AND job_country = 'United States' */
 ORDER BY 
   Salary_year_avg DESC
 )
