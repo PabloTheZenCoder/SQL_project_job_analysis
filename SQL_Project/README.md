@@ -11,7 +11,7 @@ Data hails from [Luke Barrousse's SQL Course](https://www.youtube.com/watch?v=7m
 1. What industries hire the most entry-level data analysts and whats the avg salary per industry?
 2. What industries hire the highest paid data analysts and whats the avg salary per industry?
 2. What are the top skills desired for entry-level data analysts
-3. WHat are the top skills for any data professional, from analysts to engineers? (* 12/12/24 edit:Change to highest paid data professionals???)
+3. WHat are the top skills for any data professional, from analysts to engineers?
 4. What cities/countries have the most data analyst job postings?
 5. How much more or less do companies pay for the remote option, with a degree, with health insurance included, with graduate degree?
 
@@ -228,7 +228,7 @@ Order BY
 ![Top states for Data jobs](image-4.png)
 ![Sum(job_per_place)](image-5.png)
 
-![Top 8 States For Data Jobs ](image-6.png)
+![Top 8 States For Data Jobs](image-6.png)
 
 ![Top Cities for Data Analysis](image-8.png)
 ![Top 11 Cities for Data Analysis](image-7.png)
