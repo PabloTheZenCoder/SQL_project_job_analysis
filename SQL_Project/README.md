@@ -190,7 +190,7 @@ Insights from the "Top 5 Skills for Remote Data Professionals"
 
 **-R is a very sought after skill for experienced data professionals**
 
-### 4. Top Cities and States in the U.S. for Data Analyst Jobs
+### 5. Top Cities and States in the U.S. for Data Analyst Jobs
 Even if remote jobs largely dominate the data job market, as an entry-level analyst, I felt like it's still very beneficial to network in person. Therefore knowing what states and cities in the U.S. have the most data jobs was important information to find out. 
 
 To accomplish these graphs and maps, I simply counted the number of job postings per city. Then I exported that dataset over to Excel where I separated the city and state. Finally in Tableau, I used that new Excel dataset to aggregate the amount of jobs by city and state, visualizing the states and cities with the most job postings.
