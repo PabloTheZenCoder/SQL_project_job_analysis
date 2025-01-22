@@ -199,7 +199,6 @@ ORDER BY demand_count DESC
 limit 5;
 ```
 ![Top 5 Skills for Remote Data Professionals](image-3.png)
-*Bar graph visualizing the top 5 skills for remote data professionals
 
 Insights from the "Top 5 Skills for Remote Data Professionals"
 
@@ -227,8 +226,26 @@ Order BY
     jobs_per_place DESC;
 ```
 ![Top states for Data jobs](image-4.png)
-
 ![Sum(job_per_place)](image-5.png)
+
+![Top 8 States For Data Jobs ](image-6.png)
+
+![Top Cities for Data Analysis](image-8.png)
+![Top 11 Cities for Data Analysis](image-7.png)
+
+Insights from the "Top Cities and States in the U.S. for Data Jobs"
+
+-The top three states with the highest number of data analyst jobs are California, Texas and Florida. 
+
+-My homestate of Tennessee is not one of the top states. However there are quite a few states close by in the Southeast region that do have substantial amounts of data jobs listed:
+-Virginia
+-Georgia
+-North Carolina
+-Florida
+
+-The top states 3 states for data jobs are New York, Atlanta, and Chicago. Most of the big cities in the U.S. make this list from L.A. to Seattle to Boston to Denver.
+
+-However the interactive map published in Tableau Public shows that many smaller, medium sized cities have large concentrations of data jobs. For instance: Alphareta, GA, Bentonville, AR, Charleston, SC, Colorado Springs, CO. (Personally, I love medium sized cities so I would be more inclined to seek out cool, outdoorsy, medium sized cities for a data job)
 
 
 # What I Learned
