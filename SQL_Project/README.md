@@ -225,7 +225,7 @@ Insights from the "Top Cities and States in the U.S. for Data Jobs"
 -North Carolina
 -Florida
 
-**-The top states 3 states for data jobs are New York, Atlanta, and Chicago. Most of the big cities in the U.S. make this list from L.A. to Seattle to Boston to Denver.**
+**-The top states 3 cities for data jobs are New York, Atlanta, and Chicago. Most of the big cities in the U.S. make this list from L.A. to Seattle to Boston to Denver.**
 
 **-The interactive map published in Tableau Public shows that many smaller, medium sized cities have large concentrations of data jobs.** For instance: Alphareta, GA, Bentonville, AR, Charleston, SC, Colorado Springs, CO. (Personally, I love medium sized cities so I would be more inclined to seek out cool, outdoorsy, medium sized cities for a data job)
 
@@ -241,15 +241,13 @@ Throughout this adventure, I learned a lot about how to create and publish a dat
 
 From the analysis, several general insights emerged:
 
-Top-Paying Data Analyst Jobs: The highest-paying jobs for data analysts that allow remote work offer a wide range of salaries, the highest at $650,000!
+**Diverse Industries:** Data analytics offers a wide range of industries to work in. Whether you want to focus on general IT, healthcare, social media, AI, fintech, insurance, or non-profits, data analytics jobs are needed in almost every major industry. 
 
-Skills for Top-Paying Jobs: High-paying data analyst jobs require advanced proficiency in SQL, suggesting it’s a critical skill for earning a top salary.
+**In demand skills:** This project basically reinforced and reiterated the idea that the classic data tech stack of Excel, SQL and Tableau are the best skills to become skilled in for entry-level and experienced analysts alike. After that, Python, SAS, R and some cloud computing software like AWS or Azure are solid skills to invest in. 
 
-Most In-Demand Skills: SQL is also the most demanded skill in the data analyst job market, thus making it essential for job seekers.
+**Medium to large Cities offer the best opportunities for data jobs:** Basically, being located in close proximity to a large city gives an entry-level analyst the best prospects for jobs. The three best states to live in for data analytics are California, texas and Florida and the three best cities are New York, Atlanta, and chicago.
 
-Skills with Higher Salaries: Specialized skills, such as SVN and Solidity, are associated with the highest average salaries, indicating a premium on niche expertise.
 
-Optimal Skills for Job Market Value: SQL leads in demand and offers for a high average salary, positioning it as one of the most optimal skills for data analysts to learn to maximize their market value.
 Closing Thoughts
 
-This project enhanced my SQL skills and provided valuable insights into the data analyst job market. The findings from the analysis serve as a guide to prioritizing skill development and job search efforts. Aspiring data analysts can better position themselves in a competitive job market by focusing on high-demand, high-salary skills. This exploration highlights the importance of continuous learning and adaptation to emerging trends in the field of data analytics.
+This project enhanced my SQL skills exponentially and provided valuable insights into the data analyst job market. Not only does this project showcase my own skills with SQL, Excel, Tableau, and ChatGPT, it also serves as a guide for my own data job search. This allows me to focus my data job search to specific industries that I know are in high demand of analysts. The project demonstrates that aspiring data analysts should double down on the classic data skills of Excel, SQL, and Tableau, while also learning new and diverse technologies like AI, python or cloud computing. I learned that real data analysis mostly involves getting stuff done. Using whatever tools you have available to compile and clean the data, visualize and uncover data-driven insights, and showcase findings in clear and concise ways to stakeholders. This exploration highlights the importance of continuous learning and adaptation to emerging trends in the field of data analytics.
