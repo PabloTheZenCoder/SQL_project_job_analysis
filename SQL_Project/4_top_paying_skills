@@ -8,7 +8,7 @@
 Compare job postings to see what "type" is the most in demand*/
 
 SELECT *
-FROM skills_dim
+FROM job_postings_fact
 LIMIT 100;
  
 SELECT 
@@ -31,7 +31,8 @@ limit 25;
 
 SELECT 
     skills,
-    ROUND(AVG(Salary_year_avg), 0) AS average_salary
+    ROUND(AVG(Salary_year_avg), 0) AS average_salary,
+    COUNT(job_postings_fact.job_id) as Job_post_count
 FROM job_postings_fact
 INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
 INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
@@ -44,6 +45,7 @@ INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
 GROUP BY 
     skills
 ORDER BY 
+    job_post_count DESC,
     average_salary DESC
 limit 25;
 
@@ -51,5 +53,17 @@ limit 25;
 can you provide some quick trends into the top paying jobs
 -High demand for Big Data and ML skills
 -Software development and deployment proficiency
--Cloud Computing Expertise
+-Cloud Computing Expertise  */
 
+
+/*Looking at the places where there are the most job postings*/
+SELECT 
+    job_location,
+    COUNT(*) AS Jobs_per_place
+FROM job_postings_fact
+WHERE job_country = 'United States'
+    AND job_location <> 'United States' 
+    AND job_location <> 'Anywhere'
+GROUP BY job_location
+Order BY
+    jobs_per_place DESC;
